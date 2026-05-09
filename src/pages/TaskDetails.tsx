@@ -4,14 +4,13 @@ import styled from "@emotion/styled";
 import { PathName } from "../styles";
 import NotFound from "./NotFound";
 import { Clear, Done } from "@mui/icons-material";
-import { Emoji } from "emoji-picker-react";
 import { useContext, useEffect } from "react";
 import { UserContext } from "../contexts/UserContext";
 import { getColorName } from "ntc-ts";
 
 const TaskDetails = () => {
   const { user } = useContext(UserContext);
-  const { tasks, emojisStyle } = user;
+  const { tasks } = user;
   const { id } = useParams();
   const formattedId = id?.replace(".", "");
   const task = tasks.find((task) => task.id.toString().replace(".", "") === formattedId);
@@ -47,17 +46,10 @@ const TaskDetails = () => {
         <TaskTable>
           <tbody>
             <TableRow>
-              <TableHeader>Emoji:</TableHeader>
-              <TableData>
-                {task.emoji ? (
-                  <>
-                    <Emoji unified={task?.emoji || ""} size={32} emojiStyle={emojisStyle} /> (
-                    {task.emoji})
-                  </>
-                ) : (
-                  <i>none</i>
-                )}
-              </TableData>
+              <TableHeader>Icon:</TableHeader>
+                <TableData>
+                  <span translate="yes">{task.emoji ? "Custom icon set" : "Default icon"}</span>
+                </TableData>
             </TableRow>
             <TableRow>
               <TableHeader>ID:</TableHeader>

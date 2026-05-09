@@ -18,10 +18,10 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { Emoji } from "emoji-picker-react";
 import { Task, UUID } from "../types/user";
 import { useStorageState } from "../hooks/useStorageState";
-import { DeleteForeverRounded, DeleteSweepRounded, DoneAllRounded } from "@mui/icons-material";
+import { DeleteForeverRounded,
+  TaskAltRounded, DeleteSweepRounded, DoneAllRounded } from "@mui/icons-material";
 import { showToast } from "../utils";
 
 const Purge = () => {
@@ -123,7 +123,7 @@ const Purge = () => {
                 wordBreak: "break-word",
               }}
             >
-              <Emoji size={24} unified={task.emoji || ""} emojiStyle={user.emojisStyle} />{" "}
+              <TaskAltRounded sx={{ fontSize: 20, opacity: 0.7 }} />
               {task.name}
             </Typography>
           </TaskManagementContainer>
@@ -195,3 +195,4 @@ const Purge = () => {
 };
 
 export default Purge;
+

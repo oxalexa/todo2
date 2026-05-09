@@ -1,5 +1,4 @@
-﻿import { Emoji } from "emoji-picker-react";
-import { lazy, useContext, useEffect, useState } from "react";
+﻿import { lazy, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   CategoryBadge,
@@ -10,7 +9,7 @@ import {
 } from "../components";
 import type { Category, Task, UUID } from "../types/user";
 import { useTheme } from "@emotion/react";
-import { Delete, DeleteRounded, Edit, ExpandMoreRounded, SaveRounded } from "@mui/icons-material";
+import { Delete, DeleteRounded, Edit, ExpandMoreRounded, LabelRounded, SaveRounded } from "@mui/icons-material";
 import {
   AccordionDetails,
   AccordionSummary,
@@ -261,12 +260,7 @@ const Categories = () => {
               return (
                 <CategoryElement key={category.id} clr={category.color}>
                   <CategoryContent translate="no">
-                    <span>
-                      {category.emoji && (
-                        <Emoji unified={category.emoji} emojiStyle={user.emojisStyle} />
-                      )}
-                    </span>
-                    &nbsp;
+                    <LabelRounded sx={{ fontSize: 20, opacity: 0.85, mr: 0.5 }} />
                     <span style={{ wordBreak: "break-all", fontWeight: 600 }}>{category.name}</span>
                     {totalTasksCount > 0 && (
                       <Tooltip title="The percentage of completion of tasks assigned to this category">

@@ -2,6 +2,7 @@
 import {
   AddRounded,
   EditRounded,
+  LabelRounded,
   ExpandMoreRounded,
   RadioButtonChecked,
   StarRounded,
@@ -18,7 +19,6 @@ import {
   useTheme,
   ListSubheader,
 } from "@mui/material";
-import { Emoji } from "emoji-picker-react";
 import { CSSProperties, useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { CategoryBadge } from ".";
@@ -48,7 +48,7 @@ export const CategorySelect: React.FC<CategorySelectProps> = ({
   fontColor,
 }) => {
   const { user } = useContext(UserContext);
-  const { categories, emojisStyle, favoriteCategories } = user;
+  const { categories, favoriteCategories } = user;
   const [selectedCats, setSelectedCats] = useState<Category[]>(selectedCategories);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -161,7 +161,7 @@ export const CategorySelect: React.FC<CategorySelectProps> = ({
               }
             >
               {selectedCats.some((cat) => cat.id === category.id) && <RadioButtonChecked />}
-              {category.emoji && <Emoji unified={category.emoji} emojiStyle={emojisStyle} />}
+              <LabelRounded sx={{ fontSize: 18, opacity: 0.7 }} />
               &nbsp;
               {category.name}
             </CategoriesMenu>
@@ -347,3 +347,4 @@ const StyledListSubheader = styled(ListSubheader)`
   display: flex;
   align-items: center;
 `;
+
