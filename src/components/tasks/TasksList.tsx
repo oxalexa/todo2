@@ -1,4 +1,4 @@
-import { useTheme } from "@emotion/react";
+﻿import { useTheme } from "@emotion/react";
 import {
   CancelRounded,
   Close,
@@ -39,7 +39,8 @@ import {
   TasksContainer,
   CategoriesListContainer,
   TaskNotFound,
-} from "./tasks.styled";
+} from "./tasks.styled"
+;
 import { TaskMenu } from "./TaskMenu";
 import { TaskIcon } from "../TaskIcon";
 import { useToasterStore } from "react-hot-toast";
@@ -458,7 +459,6 @@ export const TasksList: React.FC = () => {
               <CategoryBadge
                 key={cat.id}
                 category={cat}
-                emojiSizes={[24, 20]}
                 list={"true"}
                 label={
                   <div>
@@ -753,3 +753,5 @@ export const TasksList: React.FC = () => {
     </>
   );
 };
+
+

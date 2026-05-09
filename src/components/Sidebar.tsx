@@ -1,4 +1,4 @@
-import { keyframes, useTheme } from "@emotion/react";
+﻿import { keyframes, useTheme } from "@emotion/react";
 import styled from "@emotion/styled";
 import {
   AccessTimeFilledRounded,
@@ -6,23 +6,22 @@ import {
   AdjustRounded,
   BugReportRounded,
   CategoryRounded,
-  DeleteForeverRounded,
+  DeleteSweepRounded,
   DownloadDoneRounded,
-  Favorite,
   FavoriteRounded,
-  FiberManualRecord,
-  GetAppRounded,
+  CircleRounded,
+  DownloadRounded,
   GitHub,
   InstallDesktopRounded,
   InstallMobileRounded,
-  IosShareRounded,
-  Logout,
-  PhoneIphoneRounded,
-  PhonelinkRounded,
+  ShareRounded,
+  LogoutRounded,
+  SmartphoneRounded,
+  DevicesRounded,
   SettingsRounded,
   StarRounded,
-  TaskAltRounded,
-  ThumbUpRounded,
+  ChecklistRtlRounded,
+  ThumbUpAltRounded,
 } from "@mui/icons-material";
 import {
   Dialog,
@@ -257,7 +256,7 @@ export const ProfileSidebar = () => {
 
         <MenuLink to="/">
           <StyledMenuItem onClick={handleClose}>
-            <TaskAltRounded /> &nbsp; Tasks
+            <ChecklistRtlRounded /> &nbsp; Tasks
             {tasks.filter((task) => !task.done).length > 0 && (
               <Tooltip title={`${tasks.filter((task) => !task.done).length} tasks to do`}>
                 <MenuLabel>
@@ -286,19 +285,19 @@ export const ProfileSidebar = () => {
 
         <MenuLink to="/purge">
           <StyledMenuItem onClick={handleClose}>
-            <DeleteForeverRounded /> &nbsp; Purge Tasks
+            <DeleteSweepRounded /> &nbsp; Purge Tasks
           </StyledMenuItem>
         </MenuLink>
 
         <MenuLink to="/transfer">
           <StyledMenuItem onClick={handleClose}>
-            <GetAppRounded /> &nbsp; Transfer
+            <DownloadRounded /> &nbsp; Transfer
           </StyledMenuItem>
         </MenuLink>
 
         <MenuLink to="/sync">
           <StyledMenuItem onClick={handleClose}>
-            <PhonelinkRounded /> &nbsp; Sync Devices
+            <DevicesRounded /> &nbsp; Sync Devices
             {user.lastSyncedAt && (
               <Tooltip title={`Last synced ${timeAgo(new Date(user.lastSyncedAt))}`}>
                 <MenuLabel>
@@ -385,7 +384,7 @@ export const ProfileSidebar = () => {
                 showToast(
                   <div style={{ display: "inline-block" }}>
                     To install the app on iOS Safari, click on{" "}
-                    <IosShareRounded sx={{ verticalAlign: "middle", mb: "4px" }} /> and then{" "}
+                    <ShareRounded sx={{ verticalAlign: "middle", mb: "4px" }} /> and then{" "}
                     <span style={{ fontWeight: "bold" }}>Add to Home Screen</span>.
                   </div>,
                   { type: "blank", duration: 8000 },
@@ -393,7 +392,7 @@ export const ProfileSidebar = () => {
                 handleClose();
               }}
             >
-              <PhoneIphoneRounded />
+              <SmartphoneRounded />
               &nbsp; Install App
             </StyledMenuItem>
           )}
@@ -406,7 +405,7 @@ export const ProfileSidebar = () => {
           }}
           sx={{ color: "#ff4040 !important" }}
         >
-          <Logout className="LogoutIcon" /> &nbsp; Logout
+          <LogoutRounded className="LogoutRoundedIcon" /> &nbsp; LogoutRounded
         </StyledMenuItem>
 
         <ProfileOptionsBottom>
@@ -444,7 +443,7 @@ export const ProfileSidebar = () => {
           <CreditsContainer translate="no">
             <span style={{ display: "flex", alignItems: "center" }}>
               Made with &nbsp;
-              <Favorite sx={{ fontSize: "14px" }} />
+              <FavoriteRounded sx={{ fontSize: "14px" }} />
             </span>
             <span style={{ marginLeft: "6px", marginRight: "4px" }}>by</span>
             <a
@@ -483,7 +482,7 @@ export const ProfileSidebar = () => {
         </DialogContent>
         <DialogActions>
           <DialogBtn onClick={() => setOpenInstalledDialog(false)}>
-            <ThumbUpRounded /> &nbsp; Got it
+            <ThumbUpAltRounded /> &nbsp; Got it
           </DialogBtn>
         </DialogActions>
       </Dialog>
@@ -525,7 +524,7 @@ const PulseMenuLabel = () => {
           justifyContent: "center",
         }}
       >
-        <FiberManualRecord style={{ fontSize: "16px" }} />
+        <CircleRounded style={{ fontSize: "16px" }} />
       </div>
     </StyledPulseMenuLabel>
   );
@@ -634,7 +633,7 @@ const StyledMenuItem = styled(MenuItem)`
       animation: ${InstallAppAnimation} 0.8s ease-in alternate;
     }
 
-    & svg.LogoutIcon {
+    & svg.LogoutRoundedIcon {
       animation: ${LogoutAnimation} 0.5s ease-in alternate;
     }
 
@@ -755,3 +754,5 @@ const CreditsContainer = styled.div`
     backdrop-filter: none !important;
   }
 `;
+
+

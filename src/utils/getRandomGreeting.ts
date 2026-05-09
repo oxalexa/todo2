@@ -1,10 +1,10 @@
-const recentGreetings: Set<number> = new Set();
-export const maxRecentGreetings = 8; // Number of recent greetings to track
+﻿const recentGreetings: Set<number> = new Set();
+export const maxRecentGreetings = 8;
 
 const hoursLeft = 24 - new Date().getHours();
 
 const greetingsText: string[] = [
-  "Let's make today count! **1f680**",
+  "Let's make today count!",
   "Get things done and conquer the day!",
   "Embrace the power of productivity!",
   "Set your goals, crush them, repeat.",
@@ -13,17 +13,17 @@ const greetingsText: string[] = [
   "Stay organized, stay ahead.",
   "Take charge of your day!",
   "One task at a time, you've got this!",
-  "Productivity is the key to success. **1f511**",
+  "Productivity is the key to success.",
   "Let's turn plans into accomplishments!",
   "Start small, achieve big.",
   "Be efficient, be productive.",
   "Harness the power of productivity!",
   "Get ready to make things happen!",
-  "It's time to check off those tasks! **2705**",
-  "Start your day with a plan! **1f5d3-fe0f**",
+  "It's time to check off those tasks!",
+  "Start your day with a plan!",
   "Stay focused, stay productive.",
-  "Unlock your productivity potential. **1f513**",
-  "Turn your to-do list into a to-done list! **1f4dd**",
+  "Unlock your productivity potential.",
+  "Turn your to-do list into a to-done list!",
   `Have a wonderful ${new Date().toLocaleDateString("en", {
     weekday: "long",
   })}!`,
@@ -35,19 +35,13 @@ const greetingsText: string[] = [
     : `Only ${hoursLeft} hours left in the day`,
 ];
 
-/**
- * Returns a random greeting message to inspire productivity.
- * @returns {string} A random greeting message with optional emoji code.
- */
 export const getRandomGreeting = (): string => {
-  // Function to get a new greeting that hasn't been used recently
   const getUniqueGreeting = (): string => {
     let randomIndex: number;
     do {
       randomIndex = Math.floor(Math.random() * greetingsText.length);
     } while (recentGreetings.has(randomIndex));
 
-    // Update recent greetings
     recentGreetings.add(randomIndex);
     if (recentGreetings.size > maxRecentGreetings) {
       const firstEntry = Array.from(recentGreetings).shift();

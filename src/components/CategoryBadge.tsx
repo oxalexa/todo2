@@ -1,25 +1,17 @@
-import { Avatar, Chip, ChipProps, styled } from "@mui/material";
-import { Emoji, EmojiStyle } from "emoji-picker-react";
+﻿import { Avatar, Chip, ChipProps, styled } from "@mui/material";
+import { LabelRounded } from "@mui/icons-material";
 import { useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
-import { fadeIn } from "../styles";
 import type { Category } from "../types/user";
 import { getFontColor } from "../utils";
 
 interface CategoryBadgeProps extends ChipProps, StyledBadgeProps {
   category: Category;
-  emojiSizes?: [number, number];
 }
 
-export const CategoryBadge: React.FC<CategoryBadgeProps> = ({ category, emojiSizes, ...props }) => {
+export const CategoryBadge: React.FC<CategoryBadgeProps> = ({ category, ...props }) => {
   const { user } = useContext(UserContext);
-  const { emojisStyle, settings } = user;
-
-  const emojiSize = emojiSizes
-    ? emojisStyle !== EmojiStyle.NATIVE
-      ? emojiSizes[0]
-      : emojiSizes[1]
-    : 20;
+  const { settings } = user;
 
   return (
     <StyledCategoryBadge
@@ -30,11 +22,9 @@ export const CategoryBadge: React.FC<CategoryBadgeProps> = ({ category, emojiSiz
       glow={settings.enableGlow}
       translate="no"
       avatar={
-        category.emoji ? (
-          <Avatar alt={category.name} sx={{ background: "transparent", borderRadius: "0px" }}>
-            <Emoji lazyLoad size={emojiSize} unified={category.emoji} emojiStyle={emojisStyle} />
-          </Avatar>
-        ) : undefined
+        <Avatar alt={category.name} sx={{ background: "transparent", borderRadius: "0px", width: 24, height: 24 }}>
+          <LabelRounded sx={{ fontSize: 18, color: getFontColor(category.color) }} />
+        </Avatar>
       }
       {...props}
     />
@@ -53,12 +43,12 @@ export const StyledCategoryBadge = styled(Chip)<StyledBadgeProps>`
   background-color: ${({ backgroundclr }) => backgroundclr};
   box-shadow: ${({ glow, backgroundclr }) => (glow ? `0 0 8px 0 ${backgroundclr}` : "none")};
   border: ${({ borderclr }) => (borderclr ? `1px solid ${borderclr}` : "none")};
-  font-weight: bold;
-  font-size: 14px;
-  margin: 6px 0 0 0;
-  padding: 8px;
+  font-weight: 600;
+  font-size: 13px;
+  margin: 4px 0 0 0;
+  padding: 4px 6px;
+  border-radius: 10px;
   transition: 0.3s all;
-  /* animation: ${fadeIn} 0.5s ease-in; */
 
   &:hover {
     background-color: ${({ backgroundclr }) => `${backgroundclr} !important`};
@@ -73,13 +63,13 @@ export const StyledCategoryBadge = styled(Chip)<StyledBadgeProps>`
   & .MuiChip-deleteIcon {
     color: ${({ backgroundclr }) => getFontColor(backgroundclr || "")};
     transition: 0.3s all;
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
     stroke: transparent;
 
     @media (max-width: 1024px) {
-      width: 26px;
-      height: 26px;
+      width: 24px;
+      height: 24px;
     }
 
     &:hover {

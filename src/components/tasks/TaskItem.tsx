@@ -1,11 +1,17 @@
-import { useRef, memo, useContext } from "react";
-import { Emoji } from "emoji-picker-react";
-import { DoneRounded, PushPinRounded, Link, DragIndicatorRounded } from "@mui/icons-material";
+﻿import { useRef, memo, useContext } from "react";
+import {
+  DoneRounded,
+  PushPinRounded,
+  LinkRounded,
+  DragIndicatorRounded,
+  ScheduleRounded,
+  TaskAltRounded,
+} from "@mui/icons-material";
 import { Tooltip } from "@mui/material";
 import type { Task, UUID } from "../../types/user";
 import {
   TaskContainer,
-  EmojiContainer,
+  IconBadge,
   TaskInfo,
   Pinned,
   TaskHeader,
@@ -13,7 +19,6 @@ import {
   TaskDate,
   TaskDescription,
   TimeLeft,
-  RingAlarm,
   StyledRadio,
   RadioChecked,
   RadioUnchecked,
@@ -22,7 +27,7 @@ import {
   TaskActionsContainer,
   DragHandle,
 } from "./tasks.styled";
-import { calculateDateDifference, formatDate, getFontColor, systemInfo } from "../../utils";
+import { calculateDateDifference, formatDate, getFontColor } from "../../utils";
 import { RenderTaskDescription } from "./RenderTaskDescription";
 import { CategoryBadge } from "..";
 import { UserContext } from "../../contexts/UserContext";
@@ -48,10 +53,7 @@ interface TaskItemProps {
   blur?: boolean;
   textHighlighter?: (text: string) => React.ReactNode;
 }
-/**
- * A reusable task component that displays task information with configurable features.
- * used across different views (TasksList, Share, ShareDialog) with consistent styling but varied behavior.
- */
+
 export const TaskItem = memo(
   ({
     task,
@@ -66,7 +68,6 @@ export const TaskItem = memo(
     const { settings } = user;
     const { moveMode } = useContext(TaskContext);
 
-    // dnd-kit sortable logic
     const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
       id: task.id,
       disabled: !moveMode,
@@ -96,6 +97,8 @@ export const TaskItem = memo(
     if (!task) {
       return null;
     }
+
+    const isOverdue = task.deadline && new Date() > new Date(task.deadline) && !task.done;
 
     return (
       <TaskContainer
@@ -143,25 +146,18 @@ export const TaskItem = memo(
           />
         )}
 
-        {(task.emoji || task.done) && (
-          <EmojiContainer clr={getFontColor(task.color)}>
-            {task.done ? (
-              <DoneRounded fontSize="large" />
-            ) : (
-              <Emoji
-                size={systemInfo.os === "iOS" || systemInfo.os === "macOS" ? 50 : 38}
-                unified={task.emoji || ""}
-                emojiStyle={user.emojisStyle}
-                lazyLoad
-              />
-            )}
-          </EmojiContainer>
-        )}
+        <IconBadge clr={getFontColor(task.color)} done={task.done}>
+          {task.done ? (
+            <DoneRounded fontSize="small" />
+          ) : (
+            <TaskAltRounded fontSize="small" />
+          )}
+        </IconBadge>
 
         <TaskInfo translate="no">
           {task.pinned && (
             <Pinned translate="yes">
-              <PushPinRounded fontSize="small" /> &nbsp; Pinned
+              <PushPinRounded fontSize="small" /> Pinned
             </Pinned>
           )}
           <TaskHeader>
@@ -202,29 +198,30 @@ export const TaskItem = memo(
               placement="bottom-start"
             >
               <TimeLeft done={task.done} translate="yes">
-                <RingAlarm
+                <ScheduleRounded
                   fontSize="small"
-                  animate={new Date() > new Date(task.deadline) && !task.done}
                   sx={{
                     color: `${getFontColor(task.color)} !important`,
+                    animation: isOverdue ? "ring 2s ease-in-out infinite" : "none",
                   }}
-                />{" "}
-                &nbsp;
-                {new Date(task.deadline).toLocaleDateString()} {" • "}
-                {new Date(task.deadline).toLocaleTimeString()}
-                {!task.done && (
-                  <>
-                    {" • "}
-                    {calculateDateDifference(new Date(task.deadline))}
-                  </>
-                )}
+                />
+                <span style={{ marginLeft: 4 }}>
+                  {new Date(task.deadline).toLocaleDateString()} {" • "}
+                  {new Date(task.deadline).toLocaleTimeString()}
+                  {!task.done && (
+                    <>
+                      {" • "}
+                      {calculateDateDifference(new Date(task.deadline))}
+                    </>
+                  )}
+                </span>
               </TimeLeft>
             </Tooltip>
           )}
 
           {task.sharedBy && (
             <SharedByContainer translate="yes">
-              <Link /> Shared by{" "}
+              <LinkRounded fontSize="small" /> Shared by{" "}
               <span translate={task.sharedBy === "User" ? "yes" : "no"}>{task.sharedBy}</span>
             </SharedByContainer>
           )}

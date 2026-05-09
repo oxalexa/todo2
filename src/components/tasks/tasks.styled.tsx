@@ -1,12 +1,10 @@
-import styled from "@emotion/styled";
+﻿import styled from "@emotion/styled";
 import { Alarm, RadioButtonChecked, RadioButtonUnchecked } from "@mui/icons-material";
 import { Checkbox, IconButton, TextField, css } from "@mui/material";
 import { fadeIn, ring, scale } from "../../styles/keyframes.styled";
 import { ColorPalette } from "../../theme/themeConfig";
 import { getFontColor, isDark, systemInfo } from "../../utils";
 import { reduceMotion } from "../../styles/reduceMotion.styled";
-
-// TODO: move EmojiContainer to top on smaller screens, fix text spacing
 
 interface TaskComponentProps {
   backgroundColor: string;
@@ -20,23 +18,19 @@ export const TaskContainer = styled.div<TaskComponentProps>`
   display: flex;
   align-items: center;
   padding: 16px 16px 16px 20px;
-  border-radius: 30px;
+  border-radius: 24px;
   margin-top: 12px;
-  transition: ${(
-    { isDragging }, // FIXME: disable transitions only if element is dragged (not when drag mode is enabled)
-  ) => (isDragging ? "none" : "border-left 0.2s, opacity 0.4s, filter 0.3s, box-shadow 0.3s")};
+  transition: ${({ isDragging }) =>
+    isDragging ? "none" : "border-left 0.2s, opacity 0.4s, filter 0.3s, box-shadow 0.3s, transform 0.2s"};
   color: ${({ backgroundColor }) => getFontColor(backgroundColor)};
   background-color: ${({ backgroundColor, done }) => `${backgroundColor}${done ? "cc" : ""}`};
-  opacity: ${({ done }) => (done ? 0.8 : 1)};
-  border-left: ${({ done }) => (done ? "8px solid #00ff1ee3" : "1px solid transparent")};
+  opacity: ${({ done }) => (done ? 0.75 : 1)};
+  border-left: ${({ done }) => (done ? "6px solid #00e676" : "1px solid transparent")};
   box-shadow: ${(props) =>
-    props.glow && !props.blur ? `0 0 128px -20px ${props.backgroundColor}` : "none"};
-  /* text-shadow: ${({ backgroundColor, glow, done }) =>
-    glow && !done ? `0 0 2px ${getFontColor(backgroundColor)}78` : "none"}; */
+    props.glow && !props.blur ? `0 0 96px -20px ${props.backgroundColor}` : "none"};
   filter: ${({ blur }) => (blur ? "blur(2px) opacity(75%)" : "none")};
-  /* animation: ${fadeIn} 0.5s ease-in; */
   backdrop-filter: ${({ done }) => (done ? "blur(6px)" : "none")};
-  /* If the theme color and task color are the same, it changes the selection color to be different. */
+
   *::selection {
     background-color: ${({ theme, backgroundColor }) =>
       theme.primary === backgroundColor ? "#ffffff" : theme.primary} !important;
@@ -60,20 +54,24 @@ export const TaskContainer = styled.div<TaskComponentProps>`
   }
 `;
 
-export const EmojiContainer = styled.span<{ clr: string }>`
+export const IconBadge = styled.span<{ clr: string; done?: boolean }>`
   text-decoration: none;
-  margin-right: 14px;
+  margin-right: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${({ clr }) => (clr === ColorPalette.fontDark ? "#4b4b4b6e" : "#dddddd9d")};
-  font-size: 32px;
-  padding: 12px;
-  width: 42px;
-  height: 42px;
-  border-radius: 18px;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  background-color: ${({ clr, done }) =>
+    done
+      ? (clr === ColorPalette.fontDark ? "#00e67633" : "#00e67622")
+      : (clr === ColorPalette.fontDark ? "#ffffff18" : "#00000015")};
+  color: ${({ clr }) => clr};
+  font-size: 24px;
+  padding: 10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
+  flex-shrink: 0;
+  transition: 0.3s background-color;
   @media print {
     background-color: white;
     color: black;
@@ -94,37 +92,45 @@ export const TaskInfo = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
+  min-width: 0;
 `;
 
 export const TaskHeader = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 6px;
 `;
 
 export const TaskName = styled.h3<{ done: boolean }>`
-  font-size: 20px;
+  font-size: 19px;
   margin: 0;
   text-decoration: ${({ done }) => (done ? "line-through" : "none")};
   word-break: break-word;
   white-space: pre-line;
+  font-weight: 600;
+  line-height: 1.3;
 `;
 
 export const TaskDate = styled.p`
-  margin: 0 6px;
+  margin: 0;
   text-align: right;
-  margin-left: auto;
-  font-size: 14px;
+  margin-left: 8px;
+  font-size: 13px;
   font-style: italic;
-  font-weight: 300;
+  font-weight: 400;
+  opacity: 0.7;
   backdrop-filter: none !important;
+  flex-shrink: 0;
 `;
 
 export const TaskDescription = styled.div<{ done: boolean }>`
-  margin: 0;
-  font-size: 18px;
+  margin: 2px 0 0 0;
+  font-size: 16px;
   text-decoration: ${({ done }) => (done ? "line-through" : "none")};
   word-break: break-word;
+  opacity: 0.85;
+  line-height: 1.4;
 `;
 
 export const NoTasks = styled.div`
@@ -162,15 +168,16 @@ export const TasksContainer = styled.main`
 export const TimeLeft = styled.span<{ done: boolean }>`
   text-decoration: ${({ done }) => (done ? "line-through" : "none")};
   transition: 0.3s all;
-  font-size: 16px;
+  font-size: 14px;
   margin: 4px 0;
-  font-weight: 400;
+  font-weight: 500;
   display: flex;
+  align-items: center;
   backdrop-filter: none !important;
+  opacity: 0.8;
   @media (max-width: 768px) {
-    font-size: 14px;
+    font-size: 13px;
   }
-  // fix for browser translate
   & font {
     margin: 0 1px;
   }
@@ -180,8 +187,10 @@ export const SharedByContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 4px;
+  font-size: 14px;
+  opacity: 0.75;
   @media (max-width: 768px) {
-    font-size: 14px;
+    font-size: 13px;
   }
 `;
 
@@ -190,14 +199,18 @@ export const DragHandle = styled.span`
   align-items: center;
   padding: 6px;
   cursor: grab;
+  opacity: 0.6;
 `;
 
 export const Pinned = styled.div`
   display: flex;
   justify-content: left;
   align-items: center;
-  opacity: 0.8;
-  font-size: 16px;
+  gap: 4px;
+  opacity: 0.65;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 2px;
 `;
 
 export const TaskActionContainer = styled.div`
@@ -269,7 +282,6 @@ export const CategoriesListContainer = styled.div`
   padding: 0 0 6px 0;
   margin: 8px 0;
 
-  /* Custom Scrollbar Styles */
   ::-webkit-scrollbar {
     width: 8px;
     height: 8px;

@@ -1,4 +1,4 @@
-import { useContext, useMemo, lazy, Suspense, useEffect } from "react";
+﻿import { useContext, useMemo, lazy, Suspense, useEffect } from "react";
 import {
   AddButton,
   GreetingHeader,
@@ -13,10 +13,16 @@ import {
   TasksCountContainer,
 } from "../styles";
 
-import { Emoji } from "emoji-picker-react";
 import { Box, Button, CircularProgress, Tooltip, Typography } from "@mui/material";
 import { useOnlineStatus } from "../hooks/useOnlineStatus";
-import { AddRounded, CloseRounded, TodayRounded, UndoRounded, WifiOff } from "@mui/icons-material";
+import {
+  AddRounded,
+  CloseRounded,
+  TodayRounded,
+  UndoRounded,
+  WifiOff,
+  WavingHand,
+} from "@mui/icons-material";
 import { UserContext } from "../contexts/UserContext";
 import { useResponsiveDisplay } from "../hooks/useResponsiveDisplay";
 import { useNavigate } from "react-router-dom";
@@ -29,7 +35,7 @@ const TasksList = lazy(() =>
 
 const Home = () => {
   const { user, setUser } = useContext(UserContext);
-  const { tasks, emojisStyle, settings, name } = user;
+  const { tasks, settings, name } = user;
 
   const isOnline = useOnlineStatus();
   const n = useNavigate();
@@ -39,7 +45,6 @@ const Home = () => {
     document.title = "Todo App";
   }, []);
 
-  // Calculate these values only when tasks change
   const taskStats = useMemo(() => {
     const completedCount = tasks.filter((task) => task.done).length;
     const completedPercentage = tasks.length > 0 ? (completedCount / tasks.length) * 100 : 0;
@@ -63,7 +68,6 @@ const Home = () => {
     };
   }, [tasks]);
 
-  // Memoize time-based greeting
   const timeGreeting = useMemo(() => {
     const currentHour = new Date().getHours();
     if (currentHour < 12 && currentHour >= 5) {
@@ -75,7 +79,6 @@ const Home = () => {
     }
   }, []);
 
-  // Memoize task completion text
   const taskCompletionText = useMemo(() => {
     const percentage = taskStats.completedTaskPercentage;
     switch (true) {
@@ -107,7 +110,8 @@ const Home = () => {
   return (
     <>
       <GreetingHeader>
-        <Emoji unified="1f44b" emojiStyle={emojisStyle} /> &nbsp; {timeGreeting}
+        <WavingHand sx={{ fontSize: 30, mr: 1, opacity: 0.9 }} />
+        {timeGreeting}
         {name && (
           <span translate="no">
             , <span>{name}</span>
@@ -119,7 +123,8 @@ const Home = () => {
 
       {!isOnline && (
         <Offline>
-          <WifiOff /> You're offline but you can use the app!
+          <WifiOff sx={{ fontSize: 20 }} />
+          <span>You&apos;re offline but you can use the app!</span>
         </Offline>
       )}
       {tasks.length > 0 && settings.showProgressBar && (
@@ -178,11 +183,13 @@ const Home = () => {
                 <span
                   style={{
                     opacity: 0.8,
-                    display: "inline-block",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 4,
                   }}
                 >
                   <TodayRounded sx={{ fontSize: "20px", verticalAlign: "middle" }} />
-                  &nbsp;Tasks due today:&nbsp;
+                  Tasks due today:{" "}
                   <span translate="no">
                     {new Intl.ListFormat("en", { style: "long" }).format(
                       taskStats.tasksDueTodayNames,

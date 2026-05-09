@@ -1,4 +1,4 @@
-import styled from "@emotion/styled";
+﻿import styled from "@emotion/styled";
 import { getFontColor } from "../utils";
 import { fadeIn, scale } from "./keyframes.styled";
 import { Accordion, Button, css, TextField } from "@mui/material";
@@ -17,12 +17,31 @@ export const CategoryElementsContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-height: 350px;
-  background: ${({ theme }) => (theme.darkmode ? "#0000005a" : "#acacac5a")};
+  max-height: 420px;
+  background: ${({ theme }) => (theme.darkmode ? "#0c0d1a5a" : "#e8e8e85a")};
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 24px 18px;
-  border-radius: 18px;
+  padding: 28px 24px;
+  border-radius: 28px;
+  gap: 10px;
+  width: 440px;
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: ${({ theme }) => getFontColor(theme.secondary)}20;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: ${({ theme }) => getFontColor(theme.secondary)}40;
+  }
+  @media (max-width: 768px) {
+    width: 92vw;
+    padding: 20px 16px;
+    border-radius: 24px;
+  }
 `;
 
 export const AddContainer = styled.div`
@@ -30,23 +49,29 @@ export const AddContainer = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  gap: 4px;
+  gap: 8px;
+  width: 100%;
 `;
 
 export const CategoryElement = styled.div<{ clr: string }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 400px;
-  width: 400px;
-  margin: 6px 0;
-  padding: 12px;
-  border-radius: 18px;
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 20px;
   background: ${({ clr }) => clr};
   color: ${({ clr }) => getFontColor(clr)};
-  animation: ${fadeIn} 0.5s ease-in-out;
+  box-shadow: 0 2px 8px -2px ${({ clr }) => clr}88;
+  animation: ${fadeIn} 0.4s ease-out;
+  transition: transform 0.2s, box-shadow 0.3s;
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px -2px ${({ clr }) => clr}aa;
+  }
   @media (max-width: 768px) {
-    width: 360px;
+    padding: 12px 14px;
+    border-radius: 18px;
   }
 
   ${({ theme }) => reduceMotion(theme)}
@@ -55,60 +80,80 @@ export const CategoryElement = styled.div<{ clr: string }>`
 export const CategoryContent = styled.div`
   display: flex;
   align-items: center;
-  font-weight: 500;
-  margin: 0 4px;
-  gap: 4px;
+  font-weight: 600;
+  margin: 0;
+  gap: 8px;
+  font-size: 16px;
+  overflow: hidden;
 `;
 
 export const ActionButton = styled.div`
-  /* background: #ffffffcd; */
-  background: ${({ theme }) => (theme.darkmode ? "#000000cd" : "#ffffffcd")};
-  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 `;
+
 export const CategoryInput = styled(TextField)`
   margin: 12px;
 
   .MuiOutlinedInput-root {
-    border-radius: 16px;
+    border-radius: 18px;
     width: 400px;
     color: ${({ theme }) => getFontColor(theme.secondary)};
+    background: ${({ theme }) => (theme.darkmode ? "#ffffff08" : "#ffffff60")};
+    transition: 0.3s all;
+    &:hover {
+      background: ${({ theme }) => (theme.darkmode ? "#ffffff10" : "#ffffff80")};
+    }
   }
   & .MuiFormHelperText-root {
     color: ${({ theme }) => getFontColor(theme.secondary)};
     opacity: 0.8;
+  }
+  @media (max-width: 768px) {
+    .MuiOutlinedInput-root {
+      width: 92vw;
+    }
   }
 `;
 
 export const EditNameInput = styled(TextField)`
   margin-top: 8px;
   .MuiOutlinedInput-root {
-    border-radius: 16px;
+    border-radius: 18px;
     width: 350px;
   }
 `;
 
 export const AddCategoryButton = styled(Button)`
   border: none;
-  padding: 18px 48px;
-  font-size: 24px;
+  padding: 16px 40px;
+  font-size: 20px;
   background: ${({ theme }) => theme.primary};
   color: ${({ theme }) => getFontColor(theme.primary)};
   border-radius: 999px;
-  font-weight: bold;
+  font-weight: 700;
   cursor: pointer;
   transition: 0.3s all;
   margin: 20px;
   width: 400px;
   text-transform: capitalize;
+  box-shadow: 0 0 0 0 transparent;
   &:hover {
-    box-shadow: 0px 0px 24px 0px ${({ theme }) => theme.primary + "80"};
+    box-shadow: 0px 0px 28px -4px ${({ theme }) => theme.primary + "a0"};
     background: ${({ theme }) => theme.primary};
+    transform: translateY(-1px);
   }
   &:disabled {
     box-shadow: none;
     cursor: not-allowed;
-    opacity: 0.7;
+    opacity: 0.6;
     color: white;
+  }
+  @media (max-width: 768px) {
+    width: 92vw;
+    font-size: 18px;
+    padding: 14px 32px;
   }
 `;
 

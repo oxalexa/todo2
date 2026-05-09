@@ -1,9 +1,9 @@
-import {
+﻿import {
   AddRounded,
   CategoryRounded,
-  GetAppRounded,
+  DownloadRounded,
   PersonRounded,
-  TaskAlt,
+  CheckCircleOutlineRounded,
 } from "@mui/icons-material";
 import {
   Badge,
@@ -21,9 +21,6 @@ import { useResponsiveDisplay } from "../hooks/useResponsiveDisplay";
 import { pulseAnimation, slideInBottom } from "../styles";
 import { getFontColor } from "../utils";
 
-/**
- * Component for rendering the bottom navigation bar.
- */
 export const BottomNav = (): JSX.Element | null => {
   const { user } = useContext(UserContext);
   const { tasks, settings } = user;
@@ -34,9 +31,8 @@ export const BottomNav = (): JSX.Element | null => {
   const isMobile = useResponsiveDisplay();
   const location = useLocation();
 
-  const smallIconSize = "29px";
+  const smallIconSize = "28px";
 
-  // useEffect hook to set the active button based on the current route
   useEffect(() => {
     const pathParts = location.pathname.split("/");
     if (pathParts[1] === "task") {
@@ -59,7 +55,7 @@ export const BottomNav = (): JSX.Element | null => {
           setValue(0);
           break;
         default:
-          setValue(undefined); // Fallback for the undefined route
+          setValue(undefined);
       }
     }
   }, [location.pathname]);
@@ -91,7 +87,7 @@ export const BottomNav = (): JSX.Element | null => {
               badgeContent={value !== 0 ? tasks.filter((task) => !task.done).length : undefined}
               max={99}
             >
-              <TaskAlt sx={{ fontSize: smallIconSize }} />
+              <CheckCircleOutlineRounded sx={{ fontSize: smallIconSize }} />
             </Badge>
           }
         />
@@ -118,7 +114,7 @@ export const BottomNav = (): JSX.Element | null => {
         <NavigationButton
           onClick={() => n("transfer")}
           label="Transfer"
-          icon={<GetAppRounded sx={{ fontSize: smallIconSize }} />}
+          icon={<DownloadRounded sx={{ fontSize: smallIconSize }} />}
         />
         <NavigationButton
           onClick={() => n("user")}
@@ -136,7 +132,6 @@ const AddIconContainer = styled(Box, {
   border-radius: 100px;
   padding: 0;
   margin: 0 !important;
-
   display: flex;
   align-items: center;
   justify-content: center;
@@ -150,7 +145,7 @@ const AddIconContainer = styled(Box, {
 const AddIcon = styled(AddRounded)<{ clr: string }>`
   border: 2px solid ${({ clr }) => clr};
   background-color: ${({ theme }) => theme.palette.secondary.main};
-  font-size: 38px;
+  font-size: 36px;
   border-radius: 100px;
   padding: 6px;
   margin: 0 !important;
@@ -169,11 +164,11 @@ const Container = styled(Box)`
 const StyledBottomNavigation = styled(BottomNavigation, {
   shouldForwardProp: (prop) => prop !== "glow",
 })<{ glow: boolean }>`
-  /* border-radius: 24px 24px 0 0; */
   background: ${({ theme, glow }) => `${theme.palette.secondary.main}${glow ? "c8" : "e6"}`};
   backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   margin: 0px 20px 0px -20px;
-  padding: 18px 10px 32px 10px;
+  padding: 14px 10px 28px 10px;
   transition:
     0.3s background,
     color;
@@ -183,18 +178,24 @@ const StyledBottomNavigation = styled(BottomNavigation, {
 `;
 
 const NavigationButton = styled(BottomNavigationAction)`
-  border-radius: 18px;
+  border-radius: 16px;
   margin: 4px;
   color: ${({ theme }) => getFontColor(theme.palette.secondary.main)};
+  min-width: 56px;
 
   &:disabled {
-    opacity: 0.6;
+    opacity: 0.5;
     & .MuiBottomNavigationAction-label {
       text-shadow: none;
     }
   }
 
   & .MuiBottomNavigationAction-label {
-    font-size: 13px !important;
+    font-size: 12px !important;
+    font-weight: 500;
+  }
+
+  & .Mui-selected {
+    font-weight: 600;
   }
 `;
