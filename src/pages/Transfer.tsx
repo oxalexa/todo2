@@ -4,7 +4,6 @@ import Checkbox from "@mui/material/Checkbox";
 import { TopBar } from "../components";
 import { Category, Task, UUID } from "../types/user";
 import Typography from "@mui/material/Typography";
-import { Emoji } from "emoji-picker-react";
 import {
   FileDownload,
   FileUpload,
@@ -78,7 +77,7 @@ const Transfer = () => {
           {tasksToExport.map((task) => (
             <li key={task.id}>
               <ListContent>
-                <Emoji unified={task.emoji || ""} size={20} emojiStyle={user.emojisStyle} />
+                <LabelRounded sx={{ fontSize: 18, opacity: 0.7 }} />
                 <span translate="no">{task.name}</span>
               </ListContent>
             </li>
@@ -240,7 +239,7 @@ const Transfer = () => {
                   {importedTasks.map((task) => (
                     <li key={task.id}>
                       <ListContent>
-                        <Emoji unified={task.emoji || ""} size={20} emojiStyle={user.emojisStyle} />
+                        <LabelRounded sx={{ fontSize: 18, opacity: 0.7 }} />
                         <span translate="no">{task.name}</span>
                       </ListContent>
                     </li>
@@ -270,7 +269,7 @@ const Transfer = () => {
         reader.readAsText(file);
       }
     },
-    [user.categories, user.emojisStyle, user.tasks, setUser],
+    [user.categories, user.tasks, setUser],
   );
 
   const handleImportFromLink = async (): Promise<void> => {
